@@ -1,0 +1,24 @@
+# Input shipments and container capacities
+shipments = [10, 20, 30]
+container_limits = [15, 15, 20, 10]
+
+# Sort shipments and containers in descending order
+shipments.sort(reverse=True)
+container_limits.sort(reverse=True)
+
+container_index = 0  # Track the container being used
+
+for shipment in shipments:
+    while shipment > 0 and container_index < len(container_limits):
+        used = min(shipment, container_limits[container_index])
+        shipment -= used
+        container_limits[container_index] -= used
+        
+        if container_limits[container_index] == 0:  # Move to the next container if full
+            container_index += 1
+
+    if shipment > 0:  # If there are leftover units and no container left
+        print(-1)
+        break
+else:
+    print(container_index if container_index < len(container_limits) else len(container_limits))
